@@ -1,0 +1,138 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudFormation to provision a VPN
+Parameters:
+  OnPremIP:
+    Description: Enter IP Address for On-Premises Firewall
+    Type: String
+    Default: "3.111.38.155"
+  OnPremBGP:
+    Description: Enter BGP for On-Premises Network
+    Type: Number
+    Default: 65000
+  OnPremDevice:
+    Description: Enter Name for On-Premises for Firewall
+    Type: String
+    Default: myFirewall
+  # VPC:
+  #   Description: Enter Name for On-Premises for Firewall
+  #   Type: String
+  #   Default: vpc-0e803f043a895b9fd   
+  Owner:
+    Description: Enter Team or Individual Name Responsible for the Stack.
+    Type: String
+    Default: Tushar Jagtap
+  Project:
+    Description: Enter Project Name.
+    Type: String
+    Default: S-S VPN Connection Creation.
+  DeleteAfter:
+    Description: Enter Date It's Ok to Delete the Stack or 'Never' if meant to be
+      persistent.
+    Type: String
+    Default: 00/00/201x
+  VPC:
+    Description: Select VPC.
+    Type: AWS::EC2::VPC::Id
+  PrivateRouteTable:
+    Description: Enter Private Route Table ID.
+    Type: String
+    Default: rtb-0108d5e6f384f8f8f    
+
+
+Resources: 
+  myCustomerGateway:
+    Type: AWS::EC2::CustomerGateway
+    DeletionPolicy: Retain
+    Properties: 
+      BgpAsn: !Ref OnPremBGP
+      DeviceName: !Ref OnPremDevice
+      IpAddress: !Ref OnPremIP
+      Tags:
+      - Key: CreatedBy
+        Value:
+          Ref: AWS::StackName
+      - Key: Name
+        Value: "Test CGW"
+      - Key: Owner
+        Value:
+          Ref: Owner
+      - Key: Project
+        Value:
+          Ref: Project
+      - Key: DeleteAfter
+        Value:
+          Ref: DeleteAfter
+      Type: ipsec.1
+  myVPNGateway: 
+   Type: AWS::EC2::VPNGateway
+   DeletionPolicy: Retain
+   Properties: 
+      Type: ipsec.1
+      Tags:
+      - Key: CreatedBy
+        Value:
+          Ref: AWS::StackName
+      - Key: Name
+        Value: "Test VPGW"
+      - Key: Owner
+        Value:
+          Ref: Owner
+      - Key: Project
+        Value:
+          Ref: Project
+      - Key: DeleteAfter
+        Value:
+          Ref: DeleteAfter
+  AttachVpnGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    DeletionPolicy: Retain
+    Properties:
+      VpcId:
+        Ref: VPC
+      VpnGatewayId:
+        Ref: myVPNGateway
+  myVPNConnection: 
+    Type: AWS::EC2::VPNConnection
+    DeletionPolicy: Retain
+    DependsOn:
+    - myCustomerGateway
+    - myVPNGateway    
+    Properties: 
+      Type: ipsec.1
+      StaticRoutesOnly: true
+      Tags:
+      - Key: CreatedBy
+        Value:
+          Ref: AWS::StackName
+      - Key: Name
+        Value: "Test SS VPN"
+      - Key: Owner
+        Value:
+          Ref: Owner
+      - Key: Project
+        Value:
+          Ref: Project
+      - Key: DeleteAfter
+        Value:
+          Ref: DeleteAfter
+      CustomerGatewayId: 
+        !Ref myCustomerGateway
+      VpnGatewayId: 
+        !Ref myVPNGateway
+  myVPNGatewayRoutePropPrivateOnly:
+    Type: AWS::EC2::VPNGatewayRoutePropagation
+    DeletionPolicy: Retain
+    DependsOn:
+    - myVPNGateway
+    - myVPNConnection
+    Properties:
+      RouteTableIds:
+      - Ref: PrivateRouteTable
+      VpnGatewayId:
+        Ref: myVPNGateway
+  MyConnectionRoute0: 
+    Type: AWS::EC2::VPNConnectionRoute
+    DeletionPolicy: Retain
+    Properties: 
+       DestinationCidrBlock: 10.0.0.0/16
+       VpnConnectionId: !Ref myVPNConnection
