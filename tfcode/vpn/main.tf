@@ -120,7 +120,6 @@ resource "aws_vpn_connection" "vpn_connection" {
     var.additional_tags
   )
 }
-
 resource "aws_vpn_connection_route" "vpn_connection_route" {
   destination_cidr_block = var.vpn_connection_route_destination_cidr_block
   vpn_connection_id = aws_vpn_connection.vpn_connection.id

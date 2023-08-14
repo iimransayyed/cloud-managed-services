@@ -1,7 +1,7 @@
 # Set variables
 variable "name_prefix" {
     type = string 
-    default = "061058055367_staging_"
+    default = "061058055367-staging"
 }
 variable "tunnel_name" {
   type        = string
@@ -72,8 +72,7 @@ variable "route_propagation_route_table_ids" {
 variable "vpn_connection_static_routes_only" {
   description = "(Optional, Default false) Whether the VPN connection uses static routes exclusively. Static routes must be used for devices that don't support BGP."
   type        = bool
-  default     = false
-
+  default     = true
 }
 ##vpn_connection_tunnel
 # variable "vpn_connection_tunnel_inside_ip_version" {
