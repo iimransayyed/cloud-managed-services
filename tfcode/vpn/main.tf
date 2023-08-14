@@ -121,13 +121,6 @@ resource "aws_vpn_connection" "vpn_connection" {
   )
 }
 
-# resource "aws_vpn_connection_route" "vpn_connection_route" {
-#   count                  = var.virtual_private_gateways_availability_zone == null ? 0 : length(var.vpn_connection_route_destination_cidr_block)
-#   destination_cidr_block = element(var.vpn_connection_route_destination_cidr_block, count.index)
-#   vpn_connection_id      = aws_vpn_connection.vpn_connection.id
-# }
-
-
 resource "aws_vpn_connection_route" "vpn_connection_route" {
   destination_cidr_block = var.vpn_connection_route_destination_cidr_block
   vpn_connection_id = aws_vpn_connection.vpn_connection.id
