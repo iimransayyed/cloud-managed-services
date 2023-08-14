@@ -1,5 +1,8 @@
 # Set variables
-
+variable "name_prefix" {
+    type = string 
+    default = "061058055367_staging_"
+}
 variable "tunnel_name" {
   type        = string
   description = "S-S VPN Tunnel"
@@ -393,7 +396,8 @@ variable "vpn_connection_tunnel2_startup_action" {
   }
 }
 
-# variable "vpn_connection_route_destination_cidr_block" {
-#   description = "(Required) The CIDR block associated with the local subnet of the customer network."
-#   type        = list(string)
-# }
+variable "vpn_connection_route_destination_cidr_block" {
+  description = "(Required) The CIDR block associated with the local subnet of the customer network."
+  type        = string
+  # type        = list(string)
+}

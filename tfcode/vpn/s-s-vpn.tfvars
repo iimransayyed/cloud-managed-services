@@ -7,7 +7,7 @@ tags = {
   "Name" = "demo_customer_gateway"
 }
 virtual_private_gateways_vpc_id = "vpc-0e803f043a895b9fd"
-# virtual_private_gateways_amazon_side_asn = 65001
+virtual_private_gateways_amazon_side_asn = 65001
 route_propagation_route_table_ids       = ["rtb-0108d5e6f384f8f8f"]
 
 ##vpn_connection_tunnel
@@ -53,5 +53,6 @@ vpn_connection_tunnel2_replay_window_size           = 64
 vpn_connection_tunnel1_startup_action               = "add"
 vpn_connection_tunnel2_startup_action               = "add"
 
-# vpn_connection_static_route
+#vpn_connection_static_route
+vpn_connection_route_destination_cidr_block = "192.168.10.0/24"
 # vpn_connection_route_destination_cidr_block = ["192.168.10.0/24", "192.168.20.0/24", "192.168.30.0/24"]

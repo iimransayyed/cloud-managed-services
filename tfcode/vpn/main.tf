@@ -3,7 +3,7 @@ resource "aws_cloudwatch_log_group" "vpn_tunnel1_cwlog" {
   name = "/aws/vpn/${var.tunnel_name}/tunnel1"
   retention_in_days = 7
   tags = merge(
-    { "Name" = var.environment_name },
+    { "Name" = "${var.name_prefix}-vpn_tunnel1_cwlog"},
     var.additional_tags
   )
 }
@@ -12,7 +12,7 @@ resource "aws_cloudwatch_log_group" "vpn_tunnel2_cwlog" {
   name = "/aws/vpn/${var.tunnel_name}/tunnel2"
   retention_in_days = 7
   tags = merge(
-    { "Name" = var.environment_name },
+    { "Name" = "${var.name_prefix}-vpn_tunnel2_cwlog"},
     var.additional_tags
   )
 }
@@ -25,7 +25,10 @@ resource "aws_customer_gateway" "customer_gateway" {
   device_name     = var.customer_gateway_device_name
   # certificate_arn = var.customer_gateway_certificate_arn
 
-  tags = var.additional_tags
+  tags = merge(
+    { "Name" = "${var.name_prefix}-customer_gateway"},
+    var.additional_tags
+  )
 }
 
 #aws vpgw setup
@@ -34,8 +37,11 @@ resource "aws_vpn_gateway" "virtual_private_gateways" {
   amazon_side_asn   = var.virtual_private_gateways_amazon_side_asn
   availability_zone = var.virtual_private_gateways_availability_zone
 
-  tags = var.additional_tags
-}
+  tags = merge(
+    { "Name" = "${var.name_prefix}-virtual_private_gateways"},
+    var.additional_tags
+  )
+  }
 
 # aws vpgw attachment to vpc
 resource "aws_vpn_gateway_route_propagation" "route_propagation" {
@@ -45,11 +51,11 @@ resource "aws_vpn_gateway_route_propagation" "route_propagation" {
 }
 
 #aws s-s vpn using vpgw setup
-resource "aws_vpn_connection" "main" {
+resource "aws_vpn_connection" "vpn_connection" {
   vpn_gateway_id = aws_vpn_gateway.virtual_private_gateways.id
   customer_gateway_id = aws_customer_gateway.customer_gateway.id
   type = var.customer_gateway_type
-  static_routes_only = var.vpn_connection_static_routes_only
+  static_routes_only = var.vpn_connection_static_routes_only  
 
 ###vpn_connection_tunnel
   # tunnel_inside_ip_version = var.vpn_connection_tunnel_inside_ip_version
@@ -109,7 +115,10 @@ resource "aws_vpn_connection" "main" {
     }
   }
 
-  tags = var.additional_tags
+  tags = merge(
+    { "Name" = "${var.name_prefix}-vpn_connection"},
+    var.additional_tags
+  )
 }
 
 # resource "aws_vpn_connection_route" "vpn_connection_route" {
@@ -118,3 +127,8 @@ resource "aws_vpn_connection" "main" {
 #   vpn_connection_id      = aws_vpn_connection.vpn_connection.id
 # }
 
+
+resource "aws_vpn_connection_route" "vpn_connection_route" {
+  destination_cidr_block = var.vpn_connection_route_destination_cidr_block
+  vpn_connection_id = aws_vpn_connection.vpn_connection.id
+}
