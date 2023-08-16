@@ -1,5 +1,4 @@
 #Author: Imran Sayyed
-Repository of template Terraform codes for provision AWS Site to Site VPN:
 
 This terraform code will create the aws site to site vpn using virtual private gateway and the customized tunnel properties and creates the below resources:
     1.aws_customer_gateway
