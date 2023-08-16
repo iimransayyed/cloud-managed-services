@@ -9,7 +9,6 @@ tags = {
 virtual_private_gateways_vpc_id = "vpc-0e803f043a895b9fd"
 virtual_private_gateways_amazon_side_asn = 65001
 route_propagation_route_table_ids       = ["rtb-0108d5e6f384f8f8f"]
-transit_gateway_id = "tgw-qewr1423"
 
 ##vpn_connection_tunnel
 # vpn_connection_tunnel_inside_ip_version = "ipv6"

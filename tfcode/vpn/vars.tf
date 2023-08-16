@@ -1,8 +1,8 @@
-# Set variables
-variable "name_prefix" {
-    type = string 
-    default = "061058055367-staging"
-}
+# # Set variables
+# variable "name_prefix" {
+#     type = string 
+#     default = "061058055367-staging"
+# }
 variable "tunnel_name" {
   type        = string
   description = "S-S VPN Tunnel"
