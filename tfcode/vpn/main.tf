@@ -3,16 +3,15 @@ resource "aws_cloudwatch_log_group" "vpn_tunnel1_cwlog" {
   name = "/aws/vpn/${var.tunnel_name}/tunnel1"
   retention_in_days = 7
   tags = merge(
-    { "Name" = "${local.account_id}-staging-vpn_tunnel1_cwlog"},
+    { "Name" = "${local.account_id}_staging_vpn_tunnel1_cwlog"},
     var.additional_tags
   )
 }
-
 resource "aws_cloudwatch_log_group" "vpn_tunnel2_cwlog" {
   name = "/aws/vpn/${var.tunnel_name}/tunnel2"
   retention_in_days = 7
   tags = merge(
-    { "Name" = "${local.account_id}-staging-vpn_tunnel2_cwlog"},
+    { "Name" = "${local.account_id}_staging_vpn_tunnel2_cwlog"},
     var.additional_tags
   )
 }
@@ -26,7 +25,7 @@ resource "aws_customer_gateway" "customer_gateway" {
   # certificate_arn = var.customer_gateway_certificate_arn
 
   tags = merge(
-    { "Name" = "${local.account_id}-staging-customer_gateway"},
+    { "Name" = "${local.account_id}_staging_customer_gateway"},
     var.additional_tags
   )
 }
@@ -38,7 +37,7 @@ resource "aws_vpn_gateway" "virtual_private_gateways" {
   availability_zone = var.virtual_private_gateways_availability_zone
 
   tags = merge(
-    { "Name" = "${local.account_id}-staging-virtual_private_gateways"},
+    { "Name" = "${local.account_id}_staging_virtual_private_gateways"},
     var.additional_tags
   )
   }
@@ -116,7 +115,7 @@ resource "aws_vpn_connection" "vpn_connection" {
   }
 
   tags = merge(
-    { "Name" = "${local.account_id}-staging-vpn_connection"},
+    { "Name" = "${local.account_id}_staging_vpn_connection"},
     var.additional_tags
   )
 }
