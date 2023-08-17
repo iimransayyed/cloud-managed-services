@@ -13,7 +13,7 @@ module "vpc_staging" {
   private_subnet_cidr_az_c = var.private_subnet_cidr_az_c
   additional_tags = var.additional_tags
 }
-module "sec-group" {
+git dofmodule "sec-group" {
   source = "../modules/sec-groups/"
 
   vpc_id = module.vpc_staging.vpc_id
