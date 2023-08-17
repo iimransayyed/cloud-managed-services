@@ -25,3 +25,19 @@ output "subnet_staging_private_b" {
 output "subnet_staging_private_c" {
   value = tolist("${aws_subnet.private_subnet_az_c.*.id}")
 }
+
+output "private_subnet_az_a" {
+  value = aws_route_table.private_subnet_az_a
+}
+
+output "private_subnet_az_b" {
+  value = aws_route_table.private_subnet_az_b
+}
+
+output "private_subnet_az_c" {
+  value = aws_route_table.private_subnet_az_c
+}
+
+output "public_subnet" {
+  value = aws_route_table.public_subnet
+}
