@@ -78,3 +78,9 @@ variable "default_route" {
   description = "Default Route from and to internet"
   default     = "0.0.0.0/0"
 }
+
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID"
+  default     = ""
+}
