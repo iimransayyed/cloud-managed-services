@@ -23,10 +23,4 @@ output "subnet_staging_private_c_0" {
   value = module.vpc_staging.subnet_staging_private_c[0]
 }
 
-# output "sec_group0_demo_staging_public" {
-#   value = aws_security_group.demo_staging_public.id
-# }
 
-# output "sec_group_demo_staging_private" {
-#   value = aws_security_group.demo_staging_private.id
-# }

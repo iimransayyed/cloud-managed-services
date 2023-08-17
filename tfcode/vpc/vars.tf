@@ -14,7 +14,7 @@ variable "vpc_cidr" {
 variable "availability_zone" {
   type        = list(string)
   description = "Availability Zone"
-  default     = ["ap-southeast-1a", "ap-southeast-1b", "ap-southeast-1c"]
+  default     = ["ap-south-1a", "ap-south-1b", "ap-south-1c"]
 }
 
 variable "additional_tags" {
