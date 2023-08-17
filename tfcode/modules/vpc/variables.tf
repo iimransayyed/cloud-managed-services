@@ -10,3 +10,9 @@ variable "vpc_cidr" {
   description = "VPC CIDR"
   default     = "20.1.0.0/16"
 }
+
+variable "additional_tags" {
+  type        = map(string)
+  description = "Variable if additional tags is needed"
+  default     = {}
+}
